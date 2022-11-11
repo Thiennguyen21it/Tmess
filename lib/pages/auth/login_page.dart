@@ -49,8 +49,9 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 10),
                         const Text("Login now to see what they are talking!",
                             style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold)),
-                        Image.asset("assets/login.png"),
+                              fontSize: 15,
+                            )),
+                        Image.asset("assets/Community.png"),
                         TextFormField(
                           decoration: textInputDecoration.copyWith(
                               labelText: "Email",
@@ -102,14 +103,19 @@ class _LoginPageState extends State<LoginPage> {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Theme.of(context).primaryColor,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30))),
+                              fixedSize: const Size(100, 50),
+                              primary: Theme.of(context).primaryColor,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
                             child: const Text(
                               "Sign In",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
                             ),
                             onPressed: () {
                               login();

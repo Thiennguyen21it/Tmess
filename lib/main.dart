@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:tmess_app/pages/auth/login_page.dart';
 import 'package:tmess_app/pages/home_page.dart';
 import 'package:tmess_app/shared/constants.dart';
-import 'package:tmess_app/widgets/theme.dart';
-
 import 'helper/helper_function.dart';
 
 void main() async {
@@ -23,16 +21,14 @@ void main() async {
   }
 
   runApp(
-    MyApp(
-      appTheme: AppTheme(),
-    ),
+    const MyApp(),
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key, required this.appTheme}) : super(key: key);
-
-  final AppTheme appTheme;
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -40,7 +36,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isSignedIn = false;
-  late final AppTheme appTheme;
+
   @override
   void initState() {
     super.initState();
@@ -60,9 +56,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: appTheme.light,
-      darkTheme: appTheme.dark,
-      themeMode: ThemeMode.dark,
+      theme: ThemeData(
+          primaryColor: Constants().primaryColor,
+          scaffoldBackgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
       home: _isSignedIn ? const HomePage() : const LoginPage(),
     );

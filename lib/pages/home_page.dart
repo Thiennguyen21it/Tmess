@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tmess_app/pages/profile_page.dart';
 import 'package:tmess_app/pages/search_page.dart';
 import 'package:tmess_app/service/auth_service.dart';
@@ -77,16 +78,16 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text(
-          "Groups",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 27),
+        title: Text(
+          "Home",
+          style: GoogleFonts.gabriela(fontSize: 30),
         ),
       ),
       drawer: Drawer(
           child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 50),
         children: <Widget>[
+          //avatar
           Icon(
             Icons.account_circle,
             size: 150,
