@@ -161,6 +161,7 @@ class _HomePageState extends State<HomePage> {
                         IconButton(
                           onPressed: () async {
                             await authService.signOut();
+                            // ignore: use_build_context_synchronously
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => const LoginPage()),

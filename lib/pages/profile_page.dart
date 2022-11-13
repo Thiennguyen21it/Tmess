@@ -1,14 +1,11 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tmess_app/pages/set_photo_screen.dart';
 import 'package:tmess_app/service/auth_service.dart';
 import '../widgets/widgets.dart';
 import 'auth/login_page.dart';
 import 'home_page.dart';
-import 'package:image_picker_android/image_picker_android.dart';
 
+// ignore: must_be_immutable
 class ProfilePage extends StatefulWidget {
   String userName;
   String email;

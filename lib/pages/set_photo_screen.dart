@@ -6,7 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../service/auth_service.dart';
-import '../shared/constants.dart';
+
 import '../widgets/common_button.dart';
 import 'select_photo_options_screen.dart';
 
@@ -26,7 +26,7 @@ class _SetPhotoScreenState extends State<SetPhotoScreen> {
   AuthService authService = AuthService();
 
   File? _image;
-
+  //pick image function
   Future _pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -38,11 +38,13 @@ class _SetPhotoScreenState extends State<SetPhotoScreen> {
         Navigator.of(context).pop();
       });
     } on PlatformException catch (e) {
+      // ignore: avoid_print
       print(e);
       Navigator.of(context).pop();
     }
   }
 
+  //crop image function
   Future<File?> _cropImage({required File imageFile}) async {
     CroppedFile? croppedImage =
         await ImageCropper().cropImage(sourcePath: imageFile.path);
