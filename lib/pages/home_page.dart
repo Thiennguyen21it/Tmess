@@ -80,7 +80,10 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           "Home",
-          style: GoogleFonts.gabriela(fontSize: 30),
+          style: GoogleFonts.alatsi(
+            color: Colors.white,
+            fontSize: 29,
+          ),
         ),
       ),
       drawer: Drawer(
@@ -206,7 +209,7 @@ class _HomePageState extends State<HomePage> {
           return StatefulBuilder(builder: ((context, setState) {
             return AlertDialog(
               title: const Text(
-                "Create a group",
+                "Create a conversations",
                 textAlign: TextAlign.left,
               ),
               content: Column(
@@ -263,8 +266,8 @@ class _HomePageState extends State<HomePage> {
                         _isLoading = false;
                       });
                       Navigator.of(context).pop();
-                      showSnackbar(
-                          context, Colors.green, "Group created successfully.");
+                      showSnackbar(context, Colors.green,
+                          "Conversations created successfully.");
                     }
                   },
                   style: ElevatedButton.styleFrom(

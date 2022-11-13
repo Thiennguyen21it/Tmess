@@ -12,7 +12,6 @@ class AuthService {
       User user = (await firebaseAuth.signInWithEmailAndPassword(
               email: email, password: password))
           .user!;
-
       return true;
     } on FirebaseAuthException catch (e) {
       return e.message;

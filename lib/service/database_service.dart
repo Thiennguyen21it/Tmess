@@ -82,6 +82,11 @@ class DatabaseService {
     return groupCollection.where("groupName", isEqualTo: groupName).get();
   }
 
+  //search user
+  searchUser(String userName) {
+    return userCollection.where("fullName", isEqualTo: userName).get();
+  }
+
   // function -> bool
   Future<bool> isUserJoined(
       String groupName, String groupId, String userName) async {

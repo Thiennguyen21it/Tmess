@@ -84,7 +84,7 @@ class _ChatPageState extends State<ChatPage> {
                   controller: messageController,
                   style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
-                    hintText: "Send a message...",
+                    hintText: "Type your message ",
                     hintStyle: TextStyle(color: Colors.white, fontSize: 16),
                     border: InputBorder.none,
                   ),

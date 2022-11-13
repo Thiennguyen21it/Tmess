@@ -7,3 +7,14 @@ class Constants {
   static String projectId = "chatapp-66003";
   final primaryColor = const Color(0xff145C9E);
 }
+
+const kHeadTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 24,
+  fontWeight: FontWeight.bold,
+);
+
+const kHeadSubtitleTextStyle = TextStyle(
+  fontSize: 18,
+  color: Colors.black87,
+);
