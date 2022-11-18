@@ -16,7 +16,7 @@ class DatabaseService {
       "fullName": fullName,
       "email": email,
       "groups": [],
-      "profilePic": "",
+      "profilePic": "", //create a profile picture for the user
       "uid": uid,
     });
   }
@@ -137,5 +137,10 @@ class DatabaseService {
       "recentMessageSender": chatMessageData['sender'],
       "recentMessageTime": chatMessageData['time'].toString(),
     });
+  }
+
+  //update profile pic
+  updateProfilePic(String path) {
+    userCollection.doc(uid).update({"profilePic": path});
   }
 }

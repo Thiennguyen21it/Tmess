@@ -1,6 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:tmess_app/pages/set_photo_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tmess_app/helper/helper_function.dart';
 import 'package:tmess_app/service/auth_service.dart';
+import '../widgets/common_button.dart';
+import '../widgets/select_photo_options_screen.dart';
 import '../widgets/widgets.dart';
 import 'auth/login_page.dart';
 import 'home_page.dart';
@@ -9,6 +16,7 @@ import 'home_page.dart';
 class ProfilePage extends StatefulWidget {
   String userName;
   String email;
+
   ProfilePage({Key? key, required this.email, required this.userName})
       : super(key: key);
 
@@ -17,7 +25,50 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  File? _profilePic;
+
+  // late Image imageFromSF;
   AuthService authService = AuthService();
+
+  // pick image function
+
+  Future _pickImage(ImageSource source) async {
+    try {
+      final XFile? image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      File? img = File(image.path);
+      img = await _cropImage(imageFile: img);
+      setState(() {
+        _profilePic = img;
+      });
+    } on PlatformException catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
+
+  // crop image function
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage =
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
+
+  // gettingImageSF() async {
+  //   await HelperFunctions.getUploadImageFromSF().then((value) {
+  //     if (value == null) return;
+  //     setState(() {
+  //       imageFromSF = HelperFunctions.imageFromBase64String(value);
+  //     });
+  //   });
+  // }
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,10 +177,105 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      body: SetPhotoScreen(
-        email: widget.email,
-        userName: widget.userName,
+      body: SafeArea(
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: Center(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      _showSelectPhotoOptions(context);
+                    },
+                    child: Center(
+                      child: Container(
+                        height: 300.0,
+                        width: 300.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade200,
+                        ),
+                        child: Center(
+                          child: _profilePic != null
+                              ? CircleAvatar(
+                                  backgroundImage: FileImage(_profilePic!),
+                                  radius: 200.0,
+                                )
+                              : const Text(
+                                  'No image selected',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Full Name :", style: TextStyle(fontSize: 17)),
+                  Text(widget.userName, style: const TextStyle(fontSize: 17)),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Email :", style: TextStyle(fontSize: 17)),
+                  Text(widget.email, style: const TextStyle(fontSize: 17)),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  CommonButtons(
+                    onTap: () {
+                      _showSelectPhotoOptions(context);
+                    },
+                    backgroundColor: Colors.blue,
+                    textColor: Colors.white,
+                    textLabel: 'Add a Photo',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
+    );
+  }
+
+  _showSelectPhotoOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          initialChildSize: 0.28,
+          maxChildSize: 0.4,
+          minChildSize: 0.28,
+          expand: false,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: SelectPhotoOptionsScreen(
+                onTap: _pickImage,
+              ),
+            );
+          }),
     );
   }
 }

@@ -1,5 +1,7 @@
 // ignore_for_file: unused_local_variable, unnecessary_null_comparison
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tmess_app/service/database_service.dart';
 
@@ -48,5 +50,15 @@ class AuthService {
     } catch (e) {
       return null;
     }
+  }
+
+  Future uploadImage(File file) async {
+    await firebaseAuth.currentUser!.updatePhotoURL(file.path);
+    await DatabaseService(uid: firebaseAuth.currentUser!.uid)
+        .updateProfilePic(file.path);
+  }
+
+  getImageUrl(File file) {
+    return firebaseAuth.currentUser!.photoURL;
   }
 }

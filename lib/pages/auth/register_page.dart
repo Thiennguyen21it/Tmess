@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String email = "";
   String password = "";
   String fullName = "";
+
   AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
