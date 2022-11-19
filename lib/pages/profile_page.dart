@@ -55,15 +55,6 @@ class _ProfilePageState extends State<ProfilePage> {
     return File(croppedImage.path);
   }
 
-  // gettingImageSF() async {
-  //   await HelperFunctions.getUploadImageFromSF().then((value) {
-  //     if (value == null) return;
-  //     setState(() {
-  //       imageFromSF = HelperFunctions.imageFromBase64String(value);
-  //     });
-  //   });
-  // }
-
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
