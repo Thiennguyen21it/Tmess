@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(
                               fontSize: 15,
                             )),
-                        Image.asset("assets/Community@2x.png"),
+                        Image.asset("assets/Community.png"),
                         TextFormField(
                           decoration: textInputDecoration.copyWith(
                               labelText: "Email",
