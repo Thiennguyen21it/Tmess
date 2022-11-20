@@ -1,4 +1,24 @@
 Todo List : 
+* connect with firebase
  - Adding firebase to android 
  - firebase.initialzeapp() -> android 
- - firebase.initializeapp(option : )
+ - firebase.initializeapp(option :... ) for web 
+
+* authentication 
+ - authentication with emai and password 
+ - signin with email and password (login function)
+ - create email and password (register function)
+
+ *sharedpreferences 
+ - save login status into local storage (userLoggerIn)
+ - save username and useremail into local storage to login back after has info in firebase
+
+ *Home page , chat page and profile page
+ - code UI 
+ - code function 
+ - reference data information
+ 
+ profile page : 
+ - image picker for picking the image 
+ - firebase storage for uploading the image to firebasestorage
+ - cloud firestore for saving the url for upload image to your application 

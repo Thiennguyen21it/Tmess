@@ -140,7 +140,7 @@ class DatabaseService {
   }
 
   //update profile pic
-  updateProfilePic(String path) {
-    userCollection.doc(uid).update({"profilePic": path});
-  }
+  // updateProfilePic(String path) {
+  //   userCollection.doc(uid).update({"profilePic": path});
+  // }
 }

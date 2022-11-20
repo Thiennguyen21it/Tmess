@@ -19,6 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String uid = "";
   String userName = "";
   String email = "";
   AuthService authService = AuthService();
@@ -127,6 +128,7 @@ class _HomePageState extends State<HomePage> {
               nextScreenReplace(
                   context,
                   ProfilePage(
+                    uid: FirebaseAuth.instance.currentUser!.uid,
                     userName: userName,
                     email: email,
                   ));

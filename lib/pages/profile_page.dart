@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -16,9 +19,13 @@ import 'home_page.dart';
 class ProfilePage extends StatefulWidget {
   String userName;
   String email;
-
-  ProfilePage({Key? key, required this.email, required this.userName})
-      : super(key: key);
+  String uid;
+  ProfilePage({
+    Key? key,
+    required this.email,
+    required this.userName,
+    required this.uid,
+  }) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -26,7 +33,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   File? _profilePic;
-
+  String? downloadUrl;
   AuthService authService = AuthService();
 
   // pick image function
@@ -52,6 +59,25 @@ class _ProfilePageState extends State<ProfilePage> {
         await ImageCropper().cropImage(sourcePath: imageFile.path);
     if (croppedImage == null) return null;
     return File(croppedImage.path);
+  }
+
+  // upload image function, then getting download url
+  // and then saving the url to the storage
+  Future uploadImage() async {
+    final postID = DateTime.now().millisecondsSinceEpoch.toString();
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child("${widget.userName}/profilePic")
+        .child("post_$postID");
+    await ref.putFile(_profilePic!);
+    downloadUrl = await ref.getDownloadURL();
+
+    // upload image to cloud firestore
+    await firebaseFirestore
+        .collection("users")
+        .doc(widget.uid)
+        .update({"profilePic": downloadUrl});
   }
 
   @override
@@ -192,14 +218,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: Colors.grey.shade200,
                         ),
                         child: Center(
-                          child: _profilePic != null
-                              ? CircleAvatar(
-                                  backgroundImage: FileImage(_profilePic!),
-                                  radius: 200.0,
-                                )
-                              : const Text(
+                          child: _profilePic == null
+                              ? const Text(
                                   'No image selected',
                                   style: TextStyle(fontSize: 20),
+                                )
+                              : CircleAvatar(
+                                  backgroundImage: FileImage(_profilePic!),
+                                  radius: 200.0,
                                 ),
                         ),
                       ),
@@ -228,12 +254,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 30,
                   ),
                   CommonButtons(
-                    onTap: () {
-                      _showSelectPhotoOptions(context);
+                    onTap: () async {
+                      await uploadImage().whenComplete(() => showSnackbar(
+                          context, Colors.green, "Profile Picture Updated"));
                     },
                     backgroundColor: Colors.blue,
                     textColor: Colors.white,
-                    textLabel: 'Add a Photo',
+                    textLabel: 'Save image',
                   ),
                 ],
               ),

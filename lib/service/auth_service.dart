@@ -52,13 +52,13 @@ class AuthService {
     }
   }
 
-  Future uploadImage(File file) async {
-    await firebaseAuth.currentUser!.updatePhotoURL(file.path);
-    await DatabaseService(uid: firebaseAuth.currentUser!.uid)
-        .updateProfilePic(file.path);
-  }
+  // Future uploadImage(File file) async {
+  //   await firebaseAuth.currentUser!.updatePhotoURL(file.path);
+  //   await DatabaseService(uid: firebaseAuth.currentUser!.uid)
+  //       .updateProfilePic(file.path);
+  // }
 
-  getImageUrl(File file) {
-    return firebaseAuth.currentUser!.photoURL;
-  }
+  // getImageUrl(File file) {
+  //   return firebaseAuth.currentUser!.photoURL;
+  // }
 }
