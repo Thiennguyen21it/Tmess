@@ -64,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
                               email = val;
                             });
                           },
-
                           // check tha validation
                           validator: (val) {
                             return RegExp(

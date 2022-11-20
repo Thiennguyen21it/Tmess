@@ -27,7 +27,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? _profilePic;
 
-  // late Image imageFromSF;
   AuthService authService = AuthService();
 
   // pick image function
