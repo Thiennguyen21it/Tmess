@@ -27,7 +27,8 @@ class HelperFunctions {
     return await sf.setString(userEmailKey, userEmail);
   }
 
-  static Future<bool> saveUploadImageSF(String uploadImage) async {
+  //save image to prefences
+  static Future<bool> saveImageSF(String uploadImage) async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return await sf.setString(userImageKey, uploadImage);
   }
@@ -48,15 +49,17 @@ class HelperFunctions {
     return sf.getString(userNameKey);
   }
 
-  static Future<String?> getUploadImageFromSF() async {
+  static Future<String?> getImageFromSF() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return sf.getString(userImageKey);
   }
 
+  //method convert image to string
   static base64String(Uint8List data) {
     return base64Encode(data);
   }
 
+  //method convert string to image
   static Image imageFromBase64String(String base64String) {
     return Image.memory(
       base64Decode(base64String),

@@ -138,9 +138,4 @@ class DatabaseService {
       "recentMessageTime": chatMessageData['time'].toString(),
     });
   }
-
-  //update profile pic
-  // updateProfilePic(String path) {
-  //   userCollection.doc(uid).update({"profilePic": path});
-  // }
 }

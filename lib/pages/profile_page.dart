@@ -1,6 +1,5 @@
+import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File? _profilePic;
+  File? _profilePic; //image file pick from gallery and camera
   String? downloadUrl;
   AuthService authService = AuthService();
 
@@ -46,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
       img = await _cropImage(imageFile: img);
       setState(() {
         _profilePic = img;
+        HelperFunctions.saveImageSF(_profilePic!.path);
       });
     } on PlatformException catch (e) {
       // ignore: avoid_print
@@ -71,18 +71,22 @@ class _ProfilePageState extends State<ProfilePage> {
         .child("${widget.userName}/profilePic")
         .child("post_$postID");
     await ref.putFile(_profilePic!);
-    downloadUrl = await ref.getDownloadURL();
+    downloadUrl =
+        await ref.getDownloadURL(); // change image file into string url
 
-    // upload image to cloud firestore
+    //  image file into string url and save at cloud firestore as profilePic
     await firebaseFirestore
         .collection("users")
         .doc(widget.uid)
         .update({"profilePic": downloadUrl});
+
+    // return downloadUrl; // return download url
   }
 
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
+    // loadImage();
   }
 
   @override
@@ -202,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.all(28.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Center(
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
@@ -211,17 +215,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     child: Center(
                       child: Container(
-                        height: 300.0,
-                        width: 300.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey.shade200,
-                        ),
+                        // height: 300.0,
+                        // width: 300.0,
+                        // decoration: BoxDecoration(
+                        //   shape: BoxShape.circle,
+                        //   color: Colors.grey.shade200,
+                        // ),
                         child: Center(
                           child: _profilePic == null
-                              ? const Text(
-                                  'No image selected',
-                                  style: TextStyle(fontSize: 20),
+                              ? const Icon(
+                                  Icons.account_circle,
+                                  size: 300,
+                                  color: Colors.grey,
                                 )
                               : CircleAvatar(
                                   backgroundImage: FileImage(_profilePic!),
@@ -232,6 +237,42 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      _showSelectPhotoOptions(context);
+                    },
+                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.get_app),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Pick image "),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {},
+                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.save),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Save image"),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,12 +296,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   CommonButtons(
                     onTap: () async {
-                      await uploadImage().whenComplete(() => showSnackbar(
-                          context, Colors.green, "Profile Picture Updated"));
+                      await uploadImage().whenComplete(() => downloadUrl == null
+                          ? showSnackbar(
+                              context, Colors.red, "No image to upload")
+                          : showSnackbar(context, Colors.green,
+                              "Profile Picture Updated"));
                     },
                     backgroundColor: Colors.blue,
                     textColor: Colors.white,
-                    textLabel: 'Save image',
+                    textLabel: 'Upload Profile',
                   ),
                 ],
               ),
