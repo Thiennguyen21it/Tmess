@@ -36,8 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String? downloadUrl;
   AuthService authService = AuthService();
   DatabaseService databaseService = DatabaseService();
-  // pick image function
 
+  // pick image function
   Future _pickImage(ImageSource source) async {
     try {
       final XFile? image = await ImagePicker().pickImage(source: source);
@@ -80,11 +80,10 @@ class _ProfilePageState extends State<ProfilePage> {
         .collection("users")
         .doc(widget.uid)
         .update({"profilePic": downloadUrl});
-
-    return downloadUrl;
   }
 
-  imageFromFireStore(width, height) {
+// get image from cloud firestore
+  Widget getImageFromFireStore(width, height) {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection("users")
@@ -145,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
             //avatar
             Container(
               child: _profilePic == null
-                  ? imageFromFireStore(150.0, 150.0)
+                  ? getImageFromFireStore(150.0, 150.0)
                   : CircleAvatar(
                       backgroundImage: FileImage(_profilePic!),
                       radius: 70,
@@ -256,7 +255,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Center(
                       child: Center(
                           child: _profilePic == null
-                              ? imageFromFireStore(300.0, 300.0)
+                              ? getImageFromFireStore(300.0, 300.0)
                               : CircleAvatar(
                                   backgroundImage: FileImage(_profilePic!),
                                   radius: 150,
