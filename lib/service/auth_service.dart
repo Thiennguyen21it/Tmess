@@ -8,7 +8,7 @@ import '../helper/helper_function.dart';
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  // login
+  // login with email and password
   Future loginWithUserNameandPassword(String email, String password) async {
     try {
       User user = (await firebaseAuth.signInWithEmailAndPassword(
@@ -20,7 +20,7 @@ class AuthService {
     }
   }
 
-  // register
+  // register with email and password
   Future registerUserWithEmailandPassword(
       String fullName, String email, String password) async {
     try {
@@ -49,14 +49,4 @@ class AuthService {
       return null;
     }
   }
-
-  // Future uploadImage(File file) async {
-  //   await firebaseAuth.currentUser!.updatePhotoURL(file.path);
-  //   await DatabaseService(uid: firebaseAuth.currentUser!.uid)
-  //       .updateProfilePic(file.path);
-  // }
-
-  // getImageUrl(File file) {
-  //   return firebaseAuth.currentUser!.photoURL;
-  // }
 }

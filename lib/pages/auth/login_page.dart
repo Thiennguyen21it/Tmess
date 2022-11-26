@@ -121,6 +121,40 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
                         ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
+                        // SizedBox(
+                        //   width: double.infinity,
+                        //   child: ElevatedButton(
+                        //     style: ElevatedButton.styleFrom(
+                        //       fixedSize: const Size(100, 50),
+                        //       primary: Theme.of(context).primaryColor,
+                        //       elevation: 0,
+                        //       shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(30),
+                        //       ),
+                        //     ),
+                        //     child: Row(
+                        //       children: const [
+                        //         Icon(
+                        //           Icons.person,
+                        //           color: Colors.white,
+                        //         ),
+                        //         Text(
+                        //           "Sign In With Google",
+                        //           style: TextStyle(
+                        //               color: Colors.white,
+                        //               fontSize: 18,
+                        //               fontWeight: FontWeight.bold),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     onPressed: () {
+                        //       // login();
+                        //     },
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),

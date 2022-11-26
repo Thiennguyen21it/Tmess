@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tmess_app/helper/helper_function.dart';
 import 'package:tmess_app/service/auth_service.dart';
+import 'package:tmess_app/service/database_service.dart';
 import '../widgets/common_button.dart';
 import '../widgets/select_photo_options_screen.dart';
 import '../widgets/widgets.dart';
@@ -34,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   File? _profilePic; //image file pick from gallery and camera
   String? downloadUrl;
   AuthService authService = AuthService();
-
+  DatabaseService databaseService = DatabaseService();
   // pick image function
 
   Future _pickImage(ImageSource source) async {
@@ -80,13 +81,49 @@ class _ProfilePageState extends State<ProfilePage> {
         .doc(widget.uid)
         .update({"profilePic": downloadUrl});
 
-    // return downloadUrl; // return download url
+    return downloadUrl;
+  }
+
+  imageFromFireStore(width, height) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.uid)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return CachedNetworkImage(
+            imageUrl: snapshot.data["profilePic"],
+            imageBuilder: (context, imageProvider) => Container(
+              width: width,
+              height: height,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
-    // loadImage();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    uploadImage();
   }
 
   @override
@@ -106,10 +143,13 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.symmetric(vertical: 50),
           children: <Widget>[
             //avatar
-            Icon(
-              Icons.account_circle,
-              size: 150,
-              color: Colors.grey[700],
+            Container(
+              child: _profilePic == null
+                  ? imageFromFireStore(150.0, 150.0)
+                  : CircleAvatar(
+                      backgroundImage: FileImage(_profilePic!),
+                      radius: 70,
+                    ),
             ),
             const SizedBox(
               height: 15,
@@ -214,26 +254,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       _showSelectPhotoOptions(context);
                     },
                     child: Center(
-                      child: Container(
-                        // height: 300.0,
-                        // width: 300.0,
-                        // decoration: BoxDecoration(
-                        //   shape: BoxShape.circle,
-                        //   color: Colors.grey.shade200,
-                        // ),
-                        child: Center(
+                      child: Center(
                           child: _profilePic == null
-                              ? const Icon(
-                                  Icons.account_circle,
-                                  size: 300,
-                                  color: Colors.grey,
-                                )
+                              ? imageFromFireStore(300.0, 300.0)
                               : CircleAvatar(
                                   backgroundImage: FileImage(_profilePic!),
-                                  radius: 200.0,
-                                ),
-                        ),
-                      ),
+                                  radius: 150,
+                                )),
                     ),
                   ),
                 ),
