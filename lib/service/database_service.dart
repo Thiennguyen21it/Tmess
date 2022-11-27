@@ -138,4 +138,8 @@ class DatabaseService {
       "recentMessageTime": chatMessageData['time'].toString(),
     });
   }
+
+  getUserProfilePic() async {
+    return userCollection.doc(uid).collection("profilePic").snapshots();
+  }
 }

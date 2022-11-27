@@ -291,9 +291,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       children: const [
                         Icon(Icons.save),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        SizedBox(width: 10),
                         Text("Save image"),
                       ],
                     ),

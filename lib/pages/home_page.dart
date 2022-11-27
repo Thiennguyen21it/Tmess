@@ -34,11 +34,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   // string manipulation
-  String getId(String res) {
+  String getGroupId(String res) {
     return res.substring(0, res.indexOf("_"));
   }
 
-  String getName(String res) {
+  String getGroupName(String res) {
     return res.substring(res.indexOf("_") + 1);
   }
 
@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
         userName = val!;
       });
     });
+
     // getting the list of snapshots in our stream
     await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
         .getUserGroups()
@@ -296,8 +297,10 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   int reverseIndex = snapshot.data['groups'].length - index - 1;
                   return GroupTile(
-                      groupId: getId(snapshot.data['groups'][reverseIndex]),
-                      groupName: getName(snapshot.data['groups'][reverseIndex]),
+                      groupId:
+                          getGroupId(snapshot.data['groups'][reverseIndex]),
+                      groupName:
+                          getGroupName(snapshot.data['groups'][reverseIndex]),
                       userName: snapshot.data['fullName']);
                 },
               );
