@@ -1,6 +1,8 @@
 # tmess_app
 
 A new Flutter project.
+A chat application with firebase 
+Demo in screenshots 
 
 ## Getting Started
 
