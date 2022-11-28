@@ -83,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
 // get image from cloud firestore
-  Widget getImageFromFireStore(width, height) {
+  getImageFromFireStore(width, height) {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection("users")
@@ -290,9 +290,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                     child: Row(
                       children: const [
-                        Icon(Icons.save),
+                        Icon(Icons.refresh),
                         SizedBox(width: 10),
-                        Text("Save image"),
+                        Text("Refresh"),
                       ],
                     ),
                   ),
