@@ -1,1 +1,5 @@
-{}
+{
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "200"
+}

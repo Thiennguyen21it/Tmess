@@ -9,6 +9,7 @@ import 'helper/helper_function.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+//check if the platform is web or not
   if (kIsWeb) {
     await Firebase.initializeApp(
         options: FirebaseOptions(
