@@ -22,3 +22,8 @@ Todo List :
  - image picker for picking the image 
  - firebase storage for uploading the image to firebasestorage
  - cloud firestore for saving the url for upload image to your application 
+
+* draw UML 
+- use-case diagram 
+- class diagram 
+- activity diagram
