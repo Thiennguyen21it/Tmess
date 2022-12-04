@@ -20,6 +20,7 @@ class ProfilePage extends StatefulWidget {
   String userName;
   String email;
   String uid;
+
   ProfilePage({
     Key? key,
     required this.email,
@@ -36,6 +37,9 @@ class _ProfilePageState extends State<ProfilePage> {
   String? downloadUrl;
   AuthService authService = AuthService();
   DatabaseService databaseService = DatabaseService();
+  bool isLoading = false;
+  String imageURL =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT73s9z2T_I9BOpGKQpuOL2s8ZCNLNwAnmiFb-5Rjky8-nhfNltVnKKKSdRfsmYQQIwkzQ&usqp=CAU";
 
   // pick image function
   Future _pickImage(ImageSource source) async {
@@ -142,14 +146,31 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.symmetric(vertical: 50),
           children: <Widget>[
             //avatar
-            Container(
-              child: _profilePic == null
-                  ? getImageFromFireStore(150.0, 150.0)
-                  : CircleAvatar(
-                      backgroundImage: FileImage(_profilePic!),
-                      radius: 70,
+            isLoading == false
+                ? CachedNetworkImage(
+                    imageUrl: imageURL,
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 150.0,
+                      height: 150.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.cover),
+                      ),
                     ),
-            ),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  )
+                : Container(
+                    child: _profilePic == null
+                        ? getImageFromFireStore(150.0, 150.0)
+                        : CircleAvatar(
+                            backgroundImage: FileImage(_profilePic!),
+                            radius: 70,
+                          ),
+                  ),
             const SizedBox(
               height: 15,
             ),
@@ -254,12 +275,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     child: Center(
                       child: Center(
-                          child: _profilePic == null
-                              ? getImageFromFireStore(300.0, 300.0)
-                              : CircleAvatar(
-                                  backgroundImage: FileImage(_profilePic!),
-                                  radius: 150,
-                                )),
+                        child: _profilePic == null
+                            ? getImageFromFireStore(300.0, 300.0)
+                            : CircleAvatar(
+                                backgroundImage: FileImage(_profilePic!),
+                                radius: 150,
+                              ),
+                      ),
                     ),
                   ),
                 ),
