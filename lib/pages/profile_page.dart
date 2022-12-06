@@ -128,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     uploadImage();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
