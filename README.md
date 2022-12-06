@@ -2,7 +2,7 @@
 
 A new Flutter project.
 A chat application with firebase 
-Demo in screenshots 
+Demo in screenshots packages
 
 ## Getting Started
 
