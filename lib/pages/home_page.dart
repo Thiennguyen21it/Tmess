@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tmess_app/pages/profile_page.dart';
@@ -12,6 +13,7 @@ import '../service/database_service.dart';
 import '../widgets/group_tile.dart';
 import '../widgets/widgets.dart';
 import 'auth/login_page.dart';
+import 'list_groups.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -214,6 +216,21 @@ class _HomePageState extends State<HomePage> {
           size: 30,
         ),
       ),
+      persistentFooterButtons: [
+        const Text(
+          "List groups you can join  ",
+          style: TextStyle(fontSize: 18),
+          textAlign: TextAlign.center,
+        ),
+        IconButton(
+            onPressed: () {
+              nextScreen(context, const ListPage());
+            },
+            icon: const Icon(
+              CupertinoIcons.person_2_fill,
+              color: Color(0xff145C9E),
+            ))
+      ],
     );
   }
 
