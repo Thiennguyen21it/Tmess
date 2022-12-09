@@ -87,11 +87,11 @@ class DatabaseService {
     return userCollection.where("fullName", isEqualTo: userName).get();
   }
 
-  //check exits groupname
-  Future<bool> isExistGroupName(String groupName) async {
+  //check exist group name
+  checkExistGroupName(String groupName) async {
     QuerySnapshot snapshot =
         await groupCollection.where("groupName", isEqualTo: groupName).get();
-    return snapshot.docs.isNotEmpty;
+    return snapshot;
   }
 
   // function -> bool

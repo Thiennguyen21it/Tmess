@@ -13,7 +13,7 @@ import '../service/database_service.dart';
 import '../widgets/group_tile.dart';
 import '../widgets/widgets.dart';
 import 'auth/login_page.dart';
-import 'list_groups.dart';
+import 'list_groups_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
+  //gettting group name
 
   @override
   Widget build(BuildContext context) {
