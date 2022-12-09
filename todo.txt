@@ -27,3 +27,10 @@ Todo List :
 - use-case diagram 
 - class diagram 
 - activity diagram
+
+
+design use-case again 
+
+create show list group chat 
+authentication with google
+create admin for group to accept user to join in group (group controller) ;

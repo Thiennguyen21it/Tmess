@@ -87,6 +87,13 @@ class DatabaseService {
     return userCollection.where("fullName", isEqualTo: userName).get();
   }
 
+  //check exist group name
+  checkExistGroupName(String groupName) async {
+    QuerySnapshot snapshot =
+        await groupCollection.where("groupName", isEqualTo: groupName).get();
+    return snapshot;
+  }
+
   // function -> bool
   Future<bool> isUserJoined(
       String groupName, String groupId, String userName) async {
@@ -102,6 +109,7 @@ class DatabaseService {
   }
 
   // toggling the group join/exit
+
   Future toggleGroupJoin(
       String groupId, String userName, String groupName) async {
     // doc reference
