@@ -32,5 +32,5 @@ Todo List :
 design use-case again 
 
 create show list group chat 
-authentication with google
+authentication with google , facebook , phone 
 create admin for group to accept user to join in group (group controller) ;
