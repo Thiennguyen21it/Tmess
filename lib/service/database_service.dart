@@ -33,6 +33,11 @@ class DatabaseService {
     return userCollection.doc(uid).snapshots();
   }
 
+  //get groups list
+  getGroupsList() async {
+    return groupCollection.snapshots();
+  }
+
   // creating a group
   Future createGroup(String userName, String id, String groupName) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
@@ -88,10 +93,11 @@ class DatabaseService {
   }
 
   //check exist group name
-  checkExistGroupName(String groupName) async {
-    QuerySnapshot snapshot =
-        await groupCollection.where("groupName", isEqualTo: groupName).get();
-    return snapshot;
+  Future<bool> checkExistGroupName(String groupName) {
+    return groupCollection
+        .where("groupName", isEqualTo: groupName)
+        .get()
+        .then((value) => value.docs.isNotEmpty);
   }
 
   // function -> bool
@@ -149,5 +155,11 @@ class DatabaseService {
 
   getUserProfilePic() async {
     return userCollection.doc(uid).collection("profilePic").snapshots();
+  }
+
+  isGroupExist(String groupId) async {
+    DocumentReference d = groupCollection.doc(groupId);
+    DocumentSnapshot documentSnapshot = await d.get();
+    return documentSnapshot.exists;
   }
 }

@@ -1,19 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tmess_app/pages/profile_page.dart';
 import 'package:tmess_app/pages/search_page.dart';
 import 'package:tmess_app/service/auth_service.dart';
-
 import '../helper/helper_function.dart';
 import '../service/database_service.dart';
 import '../widgets/group_tile.dart';
 import '../widgets/widgets.dart';
 import 'auth/login_page.dart';
-import 'list_groups_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   String email = "";
   AuthService authService = AuthService();
   Stream? groups;
+
   bool _isLoading = false;
   String groupName = "";
   String imageURL =
@@ -69,7 +67,7 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
-  //gettting group name
+  //getting the list group snapshot
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +149,7 @@ class _HomePageState extends State<HomePage> {
             },
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(Icons.group),
+            leading: const Icon(Icons.account_circle_rounded),
             title: const Text(
               "Profile",
               style: TextStyle(color: Colors.black),
@@ -217,21 +215,6 @@ class _HomePageState extends State<HomePage> {
           size: 30,
         ),
       ),
-      persistentFooterButtons: [
-        const Text(
-          "List groups you can join  ",
-          style: TextStyle(fontSize: 18),
-          textAlign: TextAlign.center,
-        ),
-        IconButton(
-            onPressed: () {
-              nextScreen(context, const ListPage());
-            },
-            icon: const Icon(
-              CupertinoIcons.person_2_fill,
-              color: Color(0xff145C9E),
-            ))
-      ],
     );
   }
 
@@ -289,19 +272,31 @@ class _HomePageState extends State<HomePage> {
                 ElevatedButton(
                   onPressed: () async {
                     if (groupName != "") {
-                      setState(() {
-                        _isLoading = true;
-                      });
                       DatabaseService(
                               uid: FirebaseAuth.instance.currentUser!.uid)
-                          .createGroup(userName,
-                              FirebaseAuth.instance.currentUser!.uid, groupName)
-                          .whenComplete(() {
-                        _isLoading = false;
+                          .checkExistGroupName(groupName)
+                          .then((value) {
+                        if (value == false) {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          DatabaseService(
+                                  uid: FirebaseAuth.instance.currentUser!.uid)
+                              .createGroup(
+                                  userName,
+                                  FirebaseAuth.instance.currentUser!.uid,
+                                  groupName)
+                              .whenComplete(() {
+                            _isLoading = false;
+                          });
+                          Navigator.of(context).pop();
+                          showSnackbar(context, Colors.green,
+                              "Conversations created successfully.");
+                        } else {
+                          showSnackbar(context, Colors.red,
+                              "Conversations already exist.");
+                        }
                       });
-                      Navigator.of(context).pop();
-                      showSnackbar(context, Colors.green,
-                          "Conversations created successfully.");
                     }
                   },
                   style: ElevatedButton.styleFrom(
