@@ -101,6 +101,9 @@ class _SearchPageState extends State<SearchPage> {
                       color: Theme.of(context).primaryColor),
                 )
               : groupList(),
+          const SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );
@@ -139,6 +142,14 @@ class _SearchPageState extends State<SearchPage> {
           )
         : Container();
   }
+
+  // groupExistInDb(String groupId) async {
+  //   await DatabaseService(uid: user!.uid).isGroupExist(groupId).then((value) {
+  //     setState(() {
+
+  //     });
+  //   });
+  // }
 
   joinedOrNot(
       String userName, String groupId, String groupname, String admin) async {

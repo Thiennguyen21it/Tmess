@@ -128,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     uploadImage();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -203,7 +203,7 @@ class _ProfilePageState extends State<ProfilePage> {
               selectedColor: Theme.of(context).primaryColor,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              leading: const Icon(Icons.group),
+              leading: const Icon(Icons.account_circle_rounded),
               title: const Text(
                 "Profile",
                 style: TextStyle(color: Colors.black),
@@ -263,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -285,40 +285,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      _showSelectPhotoOptions(context);
-                    },
-                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.get_app),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("Pick image "),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {},
-                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.refresh),
-                        SizedBox(width: 10),
-                        Text("Refresh"),
-                      ],
-                    ),
-                  ),
-                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
