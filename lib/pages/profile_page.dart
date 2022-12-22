@@ -314,7 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           : showSnackbar(context, Colors.green,
                               "Profile Picture Updated"));
                     },
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                     textLabel: 'Upload Profile',
                   ),
