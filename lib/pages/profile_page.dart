@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // and then saving the url to the storage
   Future uploadImage() async {
     final postID = DateTime.now().millisecondsSinceEpoch.toString();
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance; 
     Reference ref = FirebaseStorage.instance
         .ref()
         .child("${widget.userName}/profilePic")

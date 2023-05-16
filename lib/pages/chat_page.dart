@@ -77,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
               width: MediaQuery.of(context).size.width,
-              color: Colors.grey[700],
+              color: Colors.grey[500],
               child: Row(children: [
                 Expanded(
                     child: TextFormField(

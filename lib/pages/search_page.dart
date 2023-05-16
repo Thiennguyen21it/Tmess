@@ -143,7 +143,7 @@ class _SearchPageState extends State<SearchPage> {
         : Container();
   }
 
-  // groupExistInDb(String groupId) async {
+  // groupExistIn Db(String groupId) async {
   //   await DatabaseService(uid: user!.uid).isGroupExist(groupId).then((value) {
   //     setState(() {
 

@@ -100,8 +100,7 @@ class _GroupInfoState extends State<GroupInfo> {
               icon: const Icon(Icons.exit_to_app))
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(

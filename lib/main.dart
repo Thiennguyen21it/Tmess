@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tmess_app/pages/auth/login_page.dart';
 import 'package:tmess_app/pages/home_page.dart';
+import 'package:tmess_app/pages/main_page.dart';
 import 'package:tmess_app/shared/constants.dart';
 import 'helper/helper_function.dart';
 
@@ -61,7 +62,7 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Constants().primaryColor,
           scaffoldBackgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
-      home: _isSignedIn ? const HomePage() : const LoginPage(),
+      home: _isSignedIn ? const MainPage() : const LoginPage(),
     );
   }
 }

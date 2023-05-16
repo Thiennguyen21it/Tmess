@@ -62,6 +62,11 @@ class DatabaseService {
     });
   }
 
+  //SHOW all groups in database
+  Future showAllGroups() async {
+    return await groupCollection.get();
+  }
+
   // getting the chats
   getChats(String groupId) async {
     return groupCollection

@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   String email = "";
   AuthService authService = AuthService();
   Stream? groups;
+  Stream? allGroupsList;
 
   bool _isLoading = false;
   String groupName = "";
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     gettingUserData();
+    gettingAllGroupsList();
   }
 
   // string manipulation
@@ -57,7 +59,6 @@ class _HomePageState extends State<HomePage> {
         userName = val!;
       });
     });
-
     // getting the list of snapshots in our stream
     await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
         .getUserGroups()
@@ -67,7 +68,52 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
-  //getting the list group snapshot
+
+  gettingAllGroupsList() {
+    DatabaseService().getGroupsList().then((snapshot) {
+      setState(() {
+        allGroupsList = snapshot;
+      });
+    });
+  }
+
+  //show all groups
+  showAllGroups() {
+    return StreamBuilder(
+      stream: allGroupsList,
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.docs.length != 0) {
+            return ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (context, index) {
+                return GroupTile(
+                  groupId: snapshot.data.docs[index]['groupId'],
+                  groupName: snapshot.data.docs[index]['groupName'],
+                  //admin
+                  userName:
+                      snapshot.data.docs[index]['admin'].toString().substring(
+                            snapshot.data.docs[index]['admin']
+                                    .toString()
+                                    .indexOf("_") +
+                                1,
+                          ),
+                );
+                // return Text("Hello");
+              },
+            );
+          } else {
+            return noGroupWidget();
+          }
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor),
+          );
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,6 +261,7 @@ class _HomePageState extends State<HomePage> {
           size: 30,
         ),
       ),
+      // bottomNavigationBar: ,
     );
   }
 
@@ -309,6 +356,8 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
+  // all groups list stored in database
+
   groupList() {
     return StreamBuilder(
       stream: groups,
@@ -374,32 +423,32 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  getImageFromFireStore(width, height) {
-    return StreamBuilder(
-      stream:
-          FirebaseFirestore.instance.collection("users").doc(uid).snapshots(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return CachedNetworkImage(
-            imageUrl: snapshot.data["profilePic"],
-            imageBuilder: (context, imageProvider) => Container(
-              width: width,
-              height: height,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
+  // getImageFromFireStore(width, height) {
+  //   return StreamBuilder(
+  //     stream:
+  //         FirebaseFirestore.instance.collection("users").doc(uid).snapshots(),
+  //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+  //       if (snapshot.hasData) {
+  //         return CachedNetworkImage(
+  //           imageUrl: snapshot.data["profilePic"],
+  //           imageBuilder: (context, imageProvider) => Container(
+  //             width: width,
+  //             height: height,
+  //             decoration: BoxDecoration(
+  //               shape: BoxShape.circle,
+  //               image: DecorationImage(
+  //                 image: imageProvider,
+  //                 fit: BoxFit.cover,
+  //               ),
+  //             ),
+  //           ),
+  //           placeholder: (context, url) => const CircularProgressIndicator(),
+  //           errorWidget: (context, url, error) => const Icon(Icons.error),
+  //         );
+  //       } else {
+  //         return const CircularProgressIndicator();
+  //       }
+  //     },
+  //   );
+  // }
 }
